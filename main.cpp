@@ -450,7 +450,7 @@ if (over)return mpv + " '" + std::filesystem::temp_directory_path().string()+"/c
 //    echo \#EXTM3U>/tmp/sg.m3u;all=$(echo -e $(curl https://anitube.in.ua/1886-shteynova-brama-steinsgate-steins-gate.html | grep RalodePlayer.init | cut -d[ -f4) | grep -o { | wc -l);zero=0;while [ $all -gt $zero ]; do let zero=zero+1;echo -e \#EXTINF:-1, $(curl https://anitube.in.ua/1886-shteynova-brama-steinsgate-steins-gate.html | grep RalodePlayer.init | cut -d[ -f4 | cut -d{ -f$(($zero+1)) | cut -d\" -f4)>>/tmp/sg.m3u;curl $(curl https://anitube.in.ua/1886-shteynova-brama-steinsgate-steins-gate.html | grep RalodePlayer.init | cut -d[ -f4 | cut -d{ -f$(($zero+1)) | sed s/'.*src=\\\"'//g | cut -d\" -f1 | sed s/'\\\/'/'\/'/g | cut -d\\ -f1) -L | grep file | cut -d'
 //    ' -f1 | cut -c11- | cut -d\" -f1 | sed s/,/\\n/g | grep 720 | cut -d\] -f2>>/tmp/sg.m3u;done;echo \#EXT-X-ENDLIST >>/tmp/sg.m3u}
 }}
-unsigned short playerajaxD(std::string who,std::vector &links){
+unsigned short playerajaxD(std::string who,std::vector<std::string> &links){
     unsigned short i=0;
     //unsigned char allm=CountOccurrences((char*)who.c_str(),(char*)"data-id");
     while (who.find("data-id") != std::string::npos){
@@ -801,7 +801,7 @@ void anilibria(std::string req,std::string in,std::string qbittorrent,std::strin
                     if ((resp[also+5] == '}')||(resp[also+5] == ','))AniLibriaById(resp.substr(also+2, 3),qbittorrent,addr,darklibria,dark,mpv,show_hidden,lc,sounded,sec,skachali,serii,warn);else
                     AniLibriaById(resp.substr(also+2, 4),qbittorrent,addr,darklibria,dark,mpv,show_hidden,lc,sounded,sec,skachali,serii,warn);break;}}}
     }}
-unsigned short anitubesearch(std::vector &links, unsigned short i, unsigned short all,std::string req, std::string &toecho){std::string in;while (i != all){
+unsigned short anitubesearch(std::vector<std::string> &links, unsigned short i, unsigned short all,std::string req, std::string &toecho){std::string in;while (i != all){
         req=req.substr(req.find("href")+6);
         if (req.substr(1,1) == "\\"){return stod(req.substr(req.find(" (")+2));return 0;}else{
             //links.push_back(req.substr(req.find("a\\/")+3,req.find("\\\">")-req.find("a\\/")-3));
@@ -809,7 +809,7 @@ unsigned short anitubesearch(std::vector &links, unsigned short i, unsigned shor
             in=req.substr(req.find(">",req.find(">")+1)+6);in=in.substr(0,in.find(")")+1);in=un(in,"\\/");in=un(in,"  ");
             ++i;
             toecho = toecho + std::to_string(i) + ")" + in  + " " + getsers(req) + "\n";}}return 0;}
-std::string anitubesite(std::string aniresp, std::vector &links, short limit,
+std::string anitubesite(std::string aniresp, std::vector<std::string> &links, short limit,
 #ifdef WIN32
 std::wstring
 #else
